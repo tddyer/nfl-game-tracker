@@ -1,8 +1,8 @@
-# NFL Game Tracker
+# Sports Matchup Tracker
 
 ## Overview
 
-This project is inspired by (and built in replacement of) the Bitcoin Ticker app that was built while following "The Complete Flutter Development Bootcamp using Dart" by the London App Brewery and Angela Yu on LinkedIn Learning (https://www.linkedin.com/learning/flutter-part-09-dart-cupertino-and-widgets). By utilizing The Sports DB NFL api (https://www.thesportsdb.com/league/4391-NFL), this app tracks the upcoming NFL games.
+This project is inspired by (and built in replacement of) the Bitcoin Ticker app that was built while following "The Complete Flutter Development Bootcamp using Dart" by the London App Brewery and Angela Yu on LinkedIn Learning (https://www.linkedin.com/learning/flutter-part-09-dart-cupertino-and-widgets). By utilizing The Sports DB api (https://www.thesportsdb.com/), this app tracks the upcoming sports matchups (NFL + MLB).
 
 
 ## What was learned from the course
