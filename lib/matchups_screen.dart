@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'matchup_data.dart';
 
 class MatchupsScreen extends StatefulWidget {
   @override
@@ -8,6 +9,20 @@ class MatchupsScreen extends StatefulWidget {
 class _MatchupsScreenState extends State<MatchupsScreen> {
 
   String selectedLeague = 'NFL';
+
+  List<DropdownMenuItem> getLeagues() {
+
+    List<DropdownMenuItem<String>> dropDownItems = [];
+    
+    for (String league in leagues) {
+      var menuItem = DropdownMenuItem(
+        child: Text(league),
+        value: league
+      );
+      dropDownItems.add(menuItem);
+    }
+    return dropDownItems;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +74,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
             color: Colors.lightBlue,
             child: DropdownButton<String>(
               value: selectedLeague,
-              items: [
-                DropdownMenuItem(
-                  child: Text('NFL'),
-                  value: 'NFL',
-                ),
-                DropdownMenuItem(
-                  child: Text('MLB'),
-                  value: 'MLB',
-                ),
-              ],
+              items: getLeagues(),
               onChanged: (value) {
                 setState(() {
                   selectedLeague = value;
