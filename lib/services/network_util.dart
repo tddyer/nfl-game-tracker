@@ -2,9 +2,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 // takes a url for retrieving api data
-class NetworkUtils {
+class NetworkUtil {
 
-  NetworkUtils({this.url});
+  NetworkUtil({this.url});
 
   final String url;
 
