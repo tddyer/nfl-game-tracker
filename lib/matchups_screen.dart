@@ -6,6 +6,9 @@ class MatchupsScreen extends StatefulWidget {
 }
 
 class _MatchupsScreenState extends State<MatchupsScreen> {
+
+  String selectedLeague = 'NFL';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +57,24 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: null,
+            child: DropdownButton<String>(
+              value: selectedLeague,
+              items: [
+                DropdownMenuItem(
+                  child: Text('NFL'),
+                  value: 'NFL',
+                ),
+                DropdownMenuItem(
+                  child: Text('MLB'),
+                  value: 'MLB',
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  selectedLeague = value;
+                });
+              },
+            ),
           ),
         ],
       ),
