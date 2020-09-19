@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'matchup_data.dart';
+import '../matchup_data.dart';
 import 'dart:io' show Platform;
 
 class MatchupsScreen extends StatefulWidget {
+
+  MatchupsScreen({this.matchupData});
+
+  final matchupData;
+
   @override
   _MatchupsScreenState createState() => _MatchupsScreenState();
 }
 
 class _MatchupsScreenState extends State<MatchupsScreen> {
 
+  MatchupData matchupData = MatchupData();
   String selectedLeague = 'NFL';
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getMatchupData();
+  // }
+
+  // void getMatchupData() async {
+  //   var nflMatchups = await matchupData.getUpcomingMatchupData(nflID);
+  //   print(nflMatchups[0]['strHomeTeam']);
+  // }
 
   // generates Android DropdownButton for android devices
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropDownItems = [];
 
-    for (String league in leagues) {
+    for (String league in leagues.values) {
       var menuItem = DropdownMenuItem(
         child: Text(league),
         value: league
@@ -39,7 +56,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
 
     List<Text> pickerItems = [];
 
-    for (String league in leagues) {
+    for (String league in leagues.values) {
       pickerItems.add(Text(league));
     }
 
@@ -56,6 +73,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Matchup Tracker'),

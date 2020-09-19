@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'matchups_screen.dart';
+import 'screens/loading_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
           primaryColor: Colors.lightBlue,
           scaffoldBackgroundColor: Colors.white),
-      home: MatchupsScreen(),
+      home: LoadingScreen(),
     );
   }
 }
