@@ -54,10 +54,6 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
   }
 
 
-  List<Text> getPickerItems() {
-    
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
