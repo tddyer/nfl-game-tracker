@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PriceScreen extends StatefulWidget {
+class MatchupsScreen extends StatefulWidget {
   @override
-  _PriceScreenState createState() => _PriceScreenState();
+  _MatchupsScreenState createState() => _MatchupsScreenState();
 }
 
-class _PriceScreenState extends State<PriceScreen> {
+class _MatchupsScreenState extends State<MatchupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
