@@ -18,11 +18,15 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
 
   // TODO: add dates to matchup cards
   String selectedLeague = favoriteLeague;
+  List<MatchupCard> matchups = [];
+
+  // api data lists
   List<String> homeTeams = [];
   List<String> awayTeams = [];
   List<String> gameTimes = [];
-  List<MatchupCard> matchups = [];
 
+  // populate api data lists with matchup data passed over from loading screen
+  // and build matchup cards for display
   @override
   void initState() {
     super.initState();
@@ -31,7 +35,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
   }
 
   void updateUpcomingMatchups(dynamic matchupData) {
-    // clearing old data from lists
+    // clearing old matchup data from lists
     homeTeams = [];
     awayTeams = [];
     gameTimes = [];
@@ -40,11 +44,12 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
       if (matchupData == null) {
         // popup error message here
         return;
-      }
-      for (int i = 0; i < matchupData['events'].length; i++) {
-        homeTeams.add(matchupData['events'][i]['strHomeTeam']);
-        awayTeams.add(matchupData['events'][i]['strAwayTeam']);
-        gameTimes.add(formatGameTime(matchupData['events'][i]['strTimeLocal']));
+      } else {
+        for (int i = 0; i < matchupData['events'].length; i++) {
+          homeTeams.add(matchupData['events'][i]['strHomeTeam']);
+          awayTeams.add(matchupData['events'][i]['strAwayTeam']);
+          gameTimes.add(formatGameTime(matchupData['events'][i]['strTimeLocal']));
+        }
       }
     });
   }
@@ -109,15 +114,20 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
   CupertinoPicker iOSPicker() {
     List<Text> pickerItems = [];
 
-    for (String league in leagues.values) {
+    for (String league in leagues.keys) {
       pickerItems.add(Text(league));
     }
 
     return CupertinoPicker(
       backgroundColor: Colors.lightBlue,
       itemExtent: 32.0,
-      onSelectedItemChanged: (selectedIndex) {
-        print(selectedIndex);
+      onSelectedItemChanged: (ind) async {
+        selectedLeague = pickerItems[ind].data;
+        var matchupData = await MatchupData().getUpcomingMatchupData(leagues[selectedLeague]);
+        updateUpcomingMatchups(matchupData);
+        setState(() {  
+          buildMatchupCards();
+        });
       },
       children: pickerItems,
     );
