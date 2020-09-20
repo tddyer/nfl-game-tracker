@@ -21,11 +21,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getFavoritedMatchupData() async {
 
     // get weather data for current location
-    var nflMatchups = await MatchupData().getUpcomingMatchupData(favoriteLeagueID);    
+    var upcomingFavoritedMatchups = await MatchupData().getUpcomingMatchupData(leagues[favoriteLeague]);    
 
     // transfer weather data to location screen
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return MatchupsScreen(matchupData: nflMatchups);
+      return MatchupsScreen(matchupData: upcomingFavoritedMatchups);
     }));
 
   }

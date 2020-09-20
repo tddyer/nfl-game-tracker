@@ -15,25 +15,36 @@ class MatchupsScreen extends StatefulWidget {
 
 class _MatchupsScreenState extends State<MatchupsScreen> {
 
-  MatchupData matchupData = MatchupData();
-  String selectedLeague = 'NFL';
+  String selectedLeague = favoriteLeague;
+  List<String> homeTeams = [];
+  List<String> awayTeams = [];
+  List<String> gameTimes = [];
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getMatchupData();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    updateUpcomingMatchups(widget.matchupData);
+  }
 
-  // void getMatchupData() async {
-  //   var nflMatchups = await matchupData.getUpcomingMatchupData(nflID);
-  //   print(nflMatchups[0]['strHomeTeam']);
-  // }
+  void updateUpcomingMatchups(dynamic matchupData) {
+    setState(() {
+      if (matchupData == null) {
+        // popup error message here
+        return;
+      }
+      for (int i = 0; i < matchupData['events'].length; i++) {
+        homeTeams.add(matchupData['events'][i]['strHomeTeam']);
+        awayTeams.add(matchupData['events'][i]['strAwayTeam']);
+        gameTimes.add(matchupData['events'][i]['strTimeLocal']);
+      }
+    });
+  }
 
   // generates Android DropdownButton for android devices
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropDownItems = [];
 
-    for (String league in leagues.values) {
+    for (String league in leagues.keys) {
       var menuItem = DropdownMenuItem(
         child: Text(league),
         value: league

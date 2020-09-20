@@ -1,6 +1,6 @@
 import 'services/network_util.dart';
 
-const favoriteLeagueID = '4391';
+const favoriteLeague = 'NFL';
 
 // TODO: fetch list up upcoming games from api
 const List<String> matchups = [];
@@ -9,8 +9,8 @@ const List<String> matchups = [];
 const List<String> gameTimes = [];
 
 const leagues = {
-  '4391': 'NFL',
-  '4424': 'MLB' 
+  'NFL': '4391',
+  'MLB': '4424'  
 };
 
 class MatchupData {
