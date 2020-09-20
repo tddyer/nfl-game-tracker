@@ -35,9 +35,23 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
       for (int i = 0; i < matchupData['events'].length; i++) {
         homeTeams.add(matchupData['events'][i]['strHomeTeam']);
         awayTeams.add(matchupData['events'][i]['strAwayTeam']);
-        gameTimes.add(matchupData['events'][i]['strTimeLocal']);
+        gameTimes.add(formatGameTime(matchupData['events'][i]['strTimeLocal']));
       }
     });
+  }
+
+  String formatGameTime(String gameTime) {
+    String retString = gameTime.substring(0, gameTime.length - 3);
+    int hour = int.parse(retString.substring(0, retString.indexOf(':')));
+    if (hour > 12) {
+      hour = hour - 12;
+      retString = hour.toString() + retString.substring(retString.indexOf(':')) + ' PM';
+    } else if (hour == 12) {
+      retString = retString + ' PM';
+    } else {
+      retString = retString + ' AM';
+    }
+    return retString;
   }
 
   // generates Android DropdownButton for android devices
@@ -93,38 +107,10 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Colors.lightBlueAccent,
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Team 1 vs Team 2',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      '12:00 PM CT',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          MatchupCard(
+            homeTeam: homeTeams[0],
+            awayTeam: awayTeams[0],
+            gameTime: gameTimes[0],
           ),
           Container(
             height: 150.0,
@@ -134,6 +120,52 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
             child: Platform.isIOS ? iOSPicker() : androidDropdown(), 
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MatchupCard extends StatelessWidget {
+  
+  MatchupCard({@required this.homeTeam, @required this.awayTeam, @required this.gameTime});
+
+  String homeTeam;
+  String awayTeam;
+  String gameTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+      child: Card(
+        color: Colors.lightBlueAccent,
+        elevation: 5.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+          child: Column(
+            children: [
+              Text(
+                '$homeTeam vs $awayTeam',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                gameTime,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
