@@ -1,4 +1,4 @@
-# Sports Matchup Tracker
+# Sports Tracker
 
 ## Overview
 
