@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../matchup_data.dart';
 import 'dart:io' show Platform;
+import 'package:sports_tracker/widgets/matchup_card.dart';
 
 class MatchupsScreen extends StatefulWidget {
 
@@ -124,50 +125,3 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     );
   }
 }
-
-class MatchupCard extends StatelessWidget {
-  
-  MatchupCard({@required this.homeTeam, @required this.awayTeam, @required this.gameTime});
-
-  String homeTeam;
-  String awayTeam;
-  String gameTime;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-      child: Card(
-        color: Colors.lightBlueAccent,
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-          child: Column(
-            children: [
-              Text(
-                '$homeTeam vs $awayTeam',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                gameTime,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
