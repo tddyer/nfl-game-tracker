@@ -24,6 +24,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
   List<String> homeTeams = [];
   List<String> awayTeams = [];
   List<String> gameTimes = [];
+  List<String> gameDates = [];
 
   // populate api data lists with matchup data passed over from loading screen
   // and build matchup cards for display
@@ -39,6 +40,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     homeTeams = [];
     awayTeams = [];
     gameTimes = [];
+    gameDates = [];
 
     setState(() {
       if (matchupData == null) {
@@ -48,25 +50,11 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
         for (int i = 0; i < matchupData['events'].length; i++) {
           homeTeams.add(matchupData['events'][i]['strHomeTeam']);
           awayTeams.add(matchupData['events'][i]['strAwayTeam']);
-          gameTimes.add(formatGameTime(matchupData['events'][i]['strTimeLocal']));
+          gameTimes.add(matchupData['events'][i]['strTimeLocal']);
+          gameDates.add(matchupData['events'][i]['dateEventLocal']);
         }
       }
     });
-  }
-
-  // formats gameTime strings to include AM/PM
-  String formatGameTime(String gameTime) {
-    String retString = gameTime.substring(0, gameTime.length - 3);
-    int hour = int.parse(retString.substring(0, retString.indexOf(':')));
-    if (hour > 12) {
-      hour = hour - 12;
-      retString = hour.toString() + retString.substring(retString.indexOf(':')) + ' PM';
-    } else if (hour == 12) {
-      retString = retString + ' PM';
-    } else {
-      retString = retString + ' AM';
-    }
-    return retString;
   }
 
   // builds MatchupCards using api data lists
@@ -79,6 +67,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
         homeTeam: homeTeams[i],
         awayTeam: awayTeams[i],
         gameTime: gameTimes[i],
+        gameDate: gameDates[i],
       );
       matchups.add(matchup);
     }
@@ -99,13 +88,9 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     return DropdownButton<String>(
       value: selectedLeague,
       items: dropDownItems,
-      onChanged: (value) async {
+      onChanged: (value) {
         selectedLeague = value;
-        var matchupData = await MatchupData().getUpcomingMatchupData(leagues[value]);
-        updateUpcomingMatchups(matchupData);
-        setState(() {  
-          buildMatchupCards();
-        });
+        onLeagueChange();
       },
     );
   }
@@ -121,16 +106,21 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     return CupertinoPicker(
       backgroundColor: Colors.lightBlue,
       itemExtent: 32.0,
-      onSelectedItemChanged: (ind) async {
+      onSelectedItemChanged: (ind)  {
         selectedLeague = pickerItems[ind].data;
-        var matchupData = await MatchupData().getUpcomingMatchupData(leagues[selectedLeague]);
-        updateUpcomingMatchups(matchupData);
-        setState(() {  
-          buildMatchupCards();
-        });
+        onLeagueChange();
       },
       children: pickerItems,
     );
+  }
+
+  // called when user changes league -> updates data from api + populates new data into matchup cards
+  void onLeagueChange() async {
+    var matchupData = await MatchupData().getUpcomingMatchupData(leagues[selectedLeague]);
+    updateUpcomingMatchups(matchupData);
+    setState(() {  
+      buildMatchupCards();
+    });
   }
 
 
