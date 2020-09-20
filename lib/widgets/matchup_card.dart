@@ -5,9 +5,9 @@ class MatchupCard extends StatelessWidget {
   
   MatchupCard({@required this.homeTeam, @required this.awayTeam, @required this.gameTime});
 
-  String homeTeam;
-  String awayTeam;
-  String gameTime;
+  final String homeTeam;
+  final String awayTeam;
+  final String gameTime;
 
   @override
   Widget build(BuildContext context) {

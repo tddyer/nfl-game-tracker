@@ -41,6 +41,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     });
   }
 
+  // formats gameTime strings to include AM/PM
   String formatGameTime(String gameTime) {
     String retString = gameTime.substring(0, gameTime.length - 3);
     int hour = int.parse(retString.substring(0, retString.indexOf(':')));
@@ -78,8 +79,8 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     );
   }
 
+  // generates iOS CupertinePicker for iOS devices
   CupertinoPicker iOSPicker() {
-
     List<Text> pickerItems = [];
 
     for (String league in leagues.values) {
@@ -108,10 +109,20 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          MatchupCard(
-            homeTeam: homeTeams[0],
-            awayTeam: awayTeams[0],
-            gameTime: gameTimes[0],
+          Expanded(
+            child: ListView.builder(
+              itemCount: homeTeams.length,
+              itemBuilder: (BuildContext context, int i) {
+                return MatchupCard(
+                  homeTeam: homeTeams[i],
+                  awayTeam: awayTeams[i],
+                  gameTime: gameTimes[i],
+                );
+              }
+            ),
+            // child: ListView(
+            //   children: getMatchupCards(),
+            // ),
           ),
           Container(
             height: 150.0,
