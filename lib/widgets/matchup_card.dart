@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:sports_tracker/utilities/constants.dart';
+
 
 class MatchupCard extends StatelessWidget {
   
@@ -8,10 +10,10 @@ class MatchupCard extends StatelessWidget {
   final String homeTeam;
   final String awayTeam;
   final String gameTime;
-  final String gameDate;
+  final DateTime gameDate;
 
-    // formats gameTime strings to include AM/PM
-  String formatGameTime(String gameTime) {
+  // formats gameTime strings to include AM/PM
+  static String formatGameTime(String gameTime) {
     String retString = gameTime.substring(0, gameTime.length - 3);
     int hour = int.parse(retString.substring(0, retString.indexOf(':')));
     if (hour > 12) {
@@ -29,7 +31,6 @@ class MatchupCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     double teamsFontSize = 20.0;
-    String formattedGT = formatGameTime(gameTime);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
@@ -58,7 +59,7 @@ class MatchupCard extends StatelessWidget {
                 width: double.infinity,
               ),
               Text(
-                '$formattedGT - $gameDate',
+                '$gameTime - ${daysOfWeek[gameDate.weekday]}, ${gameDate.month}/${gameDate.day}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: teamsFontSize - 4.0,

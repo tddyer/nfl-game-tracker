@@ -16,7 +16,6 @@ class MatchupsScreen extends StatefulWidget {
 
 class _MatchupsScreenState extends State<MatchupsScreen> {
 
-  // TODO: add dates to matchup cards
   String selectedLeague = favoriteLeague;
   List<MatchupCard> matchups = [];
 
@@ -24,7 +23,7 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
   List<String> homeTeams = [];
   List<String> awayTeams = [];
   List<String> gameTimes = [];
-  List<String> gameDates = [];
+  List<DateTime> gameDates = [];
 
   // populate api data lists with matchup data passed over from loading screen
   // and build matchup cards for display
@@ -50,8 +49,8 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
         for (int i = 0; i < matchupData['events'].length; i++) {
           homeTeams.add(matchupData['events'][i]['strHomeTeam']);
           awayTeams.add(matchupData['events'][i]['strAwayTeam']);
-          gameTimes.add(matchupData['events'][i]['strTimeLocal']);
-          gameDates.add(matchupData['events'][i]['dateEventLocal']);
+          gameTimes.add(MatchupCard.formatGameTime(matchupData['events'][i]['strTimeLocal']));
+          gameDates.add(DateTime.parse(matchupData['events'][i]['dateEventLocal']));
         }
       }
     });
