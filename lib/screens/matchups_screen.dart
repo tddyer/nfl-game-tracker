@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import '../matchup_data.dart';
-import 'dart:io' show Platform;
 import 'package:sports_tracker/widgets/matchup_card.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
+import '../matchup_data.dart';
+
+
 
 class MatchupsScreen extends StatefulWidget {
 
@@ -17,6 +19,8 @@ class MatchupsScreen extends StatefulWidget {
 class _MatchupsScreenState extends State<MatchupsScreen> {
 
   String selectedLeague = favoriteLeague;
+  
+  // holds MatchupCards to be displayed in listview
   List<MatchupCard> matchups = [];
 
   // api data lists
@@ -25,8 +29,8 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
   List<String> gameTimes = [];
   List<DateTime> gameDates = [];
 
-  // populate api data lists with matchup data passed over from loading screen
-  // and build matchup cards for display
+  // populate api data lists upon creation of screen with matchup data
+  // passed over from loading screen and build matchup cards for display
   @override
   void initState() {
     super.initState();
