@@ -16,18 +16,26 @@ class MatchupsScreen extends StatefulWidget {
 
 class _MatchupsScreenState extends State<MatchupsScreen> {
 
+  // TODO: add dates to matchup cards
   String selectedLeague = favoriteLeague;
   List<String> homeTeams = [];
   List<String> awayTeams = [];
   List<String> gameTimes = [];
+  List<MatchupCard> matchups = [];
 
   @override
   void initState() {
     super.initState();
     updateUpcomingMatchups(widget.matchupData);
+    buildMatchupCards();
   }
 
   void updateUpcomingMatchups(dynamic matchupData) {
+    // clearing old data from lists
+    homeTeams = [];
+    awayTeams = [];
+    gameTimes = [];
+
     setState(() {
       if (matchupData == null) {
         // popup error message here
@@ -56,6 +64,21 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     return retString;
   }
 
+  // builds MatchupCards using api data lists
+  void buildMatchupCards() {
+    // clear out any matchups that were present
+    matchups = [];
+    
+    for (int i = 0; i < homeTeams.length; i++) {
+      MatchupCard matchup = MatchupCard(
+        homeTeam: homeTeams[i],
+        awayTeam: awayTeams[i],
+        gameTime: gameTimes[i],
+      );
+      matchups.add(matchup);
+    }
+  }
+
   // generates Android DropdownButton for android devices
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropDownItems = [];
@@ -71,9 +94,12 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
     return DropdownButton<String>(
       value: selectedLeague,
       items: dropDownItems,
-      onChanged: (value) {
-        setState(() {
-          selectedLeague = value;
+      onChanged: (value) async {
+        selectedLeague = value;
+        var matchupData = await MatchupData().getUpcomingMatchupData(leagues[value]);
+        updateUpcomingMatchups(matchupData);
+        setState(() {  
+          buildMatchupCards();
         });
       },
     );
@@ -110,19 +136,9 @@ class _MatchupsScreenState extends State<MatchupsScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              itemCount: homeTeams.length,
-              itemBuilder: (BuildContext context, int i) {
-                return MatchupCard(
-                  homeTeam: homeTeams[i],
-                  awayTeam: awayTeams[i],
-                  gameTime: gameTimes[i],
-                );
-              }
+            child: ListView(
+              children: matchups,
             ),
-            // child: ListView(
-            //   children: getMatchupCards(),
-            // ),
           ),
           Container(
             height: 150.0,
